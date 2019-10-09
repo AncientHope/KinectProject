@@ -7,13 +7,14 @@ public class BugsDisappearing : MonoBehaviour
 {
 
     public GameObject[] bugs, particleEffects, backgound, faseHolder;
-    public bool disappearing, waiting, videoPlaying, kinectActive, bugScaled;
+    public bool disappearing, waiting, videoPlaying, kinectActive, bugScaled, passedFase1, passedFrase1;
     public int fase;
 
-    public GameObject text, pointToAttach, MoveTo, kinectIcon, bugToZoom;
+    public GameObject germsText, frase1Text, instructionsText, dispenserButton, pointToAttach, MoveTo, bugToZoom;
 
     public VideoClip videoClip;
     public VideoPlayer videoPlayer;
+    public KinectButton kinectButton;
 
     public Camera sceneCamera;
 
@@ -21,7 +22,6 @@ public class BugsDisappearing : MonoBehaviour
 
     void Start()
     {
-        kinectIconRederer = kinectIcon.GetComponent<SpriteRenderer>();
 
         // Will attach a VideoPlayer to the main camera.
         GameObject camera = GameObject.Find("Main Camera");
@@ -90,7 +90,10 @@ public class BugsDisappearing : MonoBehaviour
             faseHolder[0].SetActive(false);
             faseHolder[1].SetActive(false);
 
-            text.SetActive(false);
+            germsText.SetActive(false);
+            instructionsText.SetActive(false);
+            dispenserButton.SetActive(false);
+
 
         }
         else if (fase == 1)
@@ -104,7 +107,12 @@ public class BugsDisappearing : MonoBehaviour
             faseHolder[0].SetActive(true);
             faseHolder[1].SetActive(false);
 
-            text.SetActive(true);
+            germsText.SetActive(true);
+            instructionsText.SetActive(false);
+            dispenserButton.SetActive(false);
+
+
+            passedFase1 = true;
 
             bugScaled = false;
             //sceneCamera.orthographicSize = 5000;
@@ -112,22 +120,28 @@ public class BugsDisappearing : MonoBehaviour
         }
         else if (fase == 2)
         {
-           /* if (bugScaled == false)
+            if (passedFase1 == true)
             {
-                bugToZoom.transform.localScale = new Vector2(50000, 50000);
-                bugScaled = true;
+                StartCoroutine("FraseWait");
+
+                for (int i = 0; i < bugs.Length; i++)
+                {
+                    bugs[i].SetActive(true);
+                }
+
+                passedFase1 = false;
+                
             }
 
-            if(bugToZoom.GetComponent<Renderer>().bounds.size.x > 400)
+            if (passedFrase1 ==true)
             {
-                bugToZoom.transform.localScale *= 0.98f;
+                instructionsText.SetActive(true);
+                dispenserButton.SetActive(true);
 
-                if (bugToZoom.GetComponent<Renderer>().bounds.size.x < 400)
-                {
-                    bugToZoom.transform.localScale = new Vector2(400, 400);
+                kinectButton.instructionPart = true;
 
-                }
-            }*/
+                passedFrase1 = false;
+            }
 
             videoPlayer.Stop();
 
@@ -138,7 +152,7 @@ public class BugsDisappearing : MonoBehaviour
             faseHolder[0].SetActive(false);
             faseHolder[1].SetActive(true);
 
-            text.SetActive(false);
+            germsText.SetActive(false);
 
             //sceneCamera.orthographicSize = 2100;
         }
@@ -173,5 +187,11 @@ public class BugsDisappearing : MonoBehaviour
             
         }
 
+    }
+
+    IEnumerator FraseWait()
+    {
+        yield return new WaitForSeconds(2);
+        frase1Text.SetActive(true);
     }
 }

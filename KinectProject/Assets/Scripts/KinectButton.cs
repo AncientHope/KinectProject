@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class KinectButton : MonoBehaviour
 {
+    public Sprite[] faseSprite;
 
     public GameObject bugsDisappearingGameObj;
     private BugsDisappearing bugsDisappearingScript;
+
+    public bool instructionPart;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,11 @@ public class KinectButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (instructionPart)
+        {
+            StartCoroutine("Flash");
+        }
+
         
     }
 
@@ -24,14 +32,55 @@ public class KinectButton : MonoBehaviour
     {
         bugsDisappearingScript.disappearing = true;
 
-        bugsDisappearingScript.kinectIconRederer.color = Color.red;
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[1];
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
         bugsDisappearingScript.disappearing = false;
 
-        bugsDisappearingScript.kinectIconRederer.color = Color.white;
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[0];
 
     }
+
+    IEnumerator Flash()
+    {
+        instructionPart = false;
+
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[1];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[0];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[1];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[0];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[1];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[0];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[1];
+
+        yield return new WaitForSeconds(0.5f);
+
+        bugsDisappearingScript.kinectIconRederer.sprite = faseSprite[0];
+
+
+    }
+
 }
