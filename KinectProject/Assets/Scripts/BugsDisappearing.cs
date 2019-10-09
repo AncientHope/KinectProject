@@ -6,7 +6,7 @@ using UnityEngine.Video;
 public class BugsDisappearing : MonoBehaviour
 {
 
-    public GameObject[] bugs, backgound, faseHolder;
+    public GameObject[] bugs, particleEffects, backgound, faseHolder;
     public bool disappearing, waiting, videoPlaying, kinectActive, bugScaled;
     public int fase;
 
@@ -112,7 +112,7 @@ public class BugsDisappearing : MonoBehaviour
         }
         else if (fase == 2)
         {
-            if (bugScaled == false)
+           /* if (bugScaled == false)
             {
                 bugToZoom.transform.localScale = new Vector2(50000, 50000);
                 bugScaled = true;
@@ -127,7 +127,7 @@ public class BugsDisappearing : MonoBehaviour
                     bugToZoom.transform.localScale = new Vector2(400, 400);
 
                 }
-            }
+            }*/
 
             videoPlayer.Stop();
 
@@ -164,6 +164,8 @@ public class BugsDisappearing : MonoBehaviour
             {
                 bugs[i].SetActive(false);
                 
+                if(particleEffects[i] != null)
+                particleEffects[i].SetActive(true);
                 yield return new WaitForSeconds(1);
                 waiting = false;
                 break;
